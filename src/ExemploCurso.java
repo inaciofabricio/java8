@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.stream.Collectors;
 
 class Curso {
     private String nome;
@@ -50,11 +54,74 @@ public class ExemploCurso {
 		System.out.println();
 		
 		int sum = cursos.stream()
-		.filter(c -> c.getAlunos() >= 100)
-		.mapToInt(Curso::getAlunos)
-		.sum();
+			.filter(c -> c.getAlunos() >= 100)
+			.mapToInt(Curso::getAlunos)
+			.sum();
 	
 		System.out.println(sum);
+		
+		System.out.println();
+		
+		Optional<Curso> optionalCurso = cursos.stream()
+				.filter(c -> c.getAlunos() >= 100)
+				.findAny();
+		
+		Curso curso = optionalCurso.orElse(null);
+		System.out.println(curso.getNome());
+		
+		System.out.println();
+		
+		cursos.stream()
+			.filter(c -> c.getAlunos() >= 100)
+			.findAny()
+			.ifPresent(c -> System.out.println(c.getNome()));
+		
+		System.out.println();
+		
+		OptionalDouble media = cursos.stream()
+			.filter(c -> c.getAlunos() >= 100)
+			.mapToInt(Curso::getAlunos)
+			.average();
+		
+		System.out.println();
+		
+		List<Curso> resultado = cursos.stream()
+			.filter(c -> c.getAlunos() >= 100)
+			.collect(Collectors.toList());
+		
+		resultado.forEach((Curso c) -> System.out.println(c.getNome()) );
+		
+		System.out.println();
+		
+		Map<String, Integer> map = cursos.stream()
+			.filter(c -> c.getAlunos() >= 100)
+			.collect(Collectors.toMap(
+					c -> c.getNome(),
+					c -> c.getAlunos()
+			));
+		
+		System.out.println(map);
+		
+		System.out.println();
+		
+		cursos.stream()
+			.filter(c -> c.getAlunos() >= 100)
+			.collect(Collectors.toMap(
+					c -> c.getNome(),
+					c -> c.getAlunos()
+			))
+			.forEach((nome, alunos) -> System.out.println(nome + " tem " + alunos + " alunos"));
+			
+		System.out.println();
+		
+		cursos.parallelStream()
+			.filter(c -> c.getAlunos() >= 100)
+			.collect(Collectors.toMap(
+					c -> c.getNome(),
+					c -> c.getAlunos()
+			))
+			.forEach((nome, alunos) -> System.out.println(nome + " tem " + alunos + " alunos"));
+			
 	}
 
 }
