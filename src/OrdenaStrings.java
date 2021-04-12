@@ -57,6 +57,10 @@ public class OrdenaStrings {
 				
 		palavras.sort((s1, s2) -> Integer.compare(s1.length(), s2.length()));
 		
+		palavras.sort(Comparator.comparing(s -> s.length()));
+		
+		palavras.sort(Comparator.comparing(String::length));
+		
 //		Collections.sort(palavras);
 		System.out.println(palavras);
 		
@@ -89,6 +93,15 @@ public class OrdenaStrings {
 		System.out.println();
 		
 		palavras.forEach(s -> System.out.println(s) );
+		
+		System.out.println();
+		
+		Consumer<String> impressor = System.out::println; 
+		palavras.forEach(impressor);
+		
+		System.out.println();
+		
+		palavras.forEach(System.out::println);
 
 	}
 
